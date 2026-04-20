@@ -1,0 +1,32 @@
+{
+  "name": "gen-ai",
+  "version": "1.0.0",
+  "description": "An AI Resume analyser in which you can upload your resume and the targetted job description and the AI will give you suggestions and you can also generate an ATS friendly Resume if you want to.",
+  "keywords": [
+    "AI",
+    "GenAi",
+    "Resume",
+    "ATS"
+  ],
+  "homepage": "https://github.com/NotJustAkarsh/ai-resume-analyzer#readme",
+  "bugs": {
+    "url": "https://github.com/NotJustAkarsh/ai-resume-analyzer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotJustAkarsh/ai-resume-analyzer.git"
+  },
+  "license": "ISC",
+  "author": "NotJustAkarsh",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"npx nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  }
+}
