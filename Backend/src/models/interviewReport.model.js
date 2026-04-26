@@ -1,38 +1,5 @@
 const mongoose = require("mongoose");
 
-/**
- * - Job Description : String
- * - Resume Text : String
- * - Self Description : String
- *
- * - matchScore : Number
- *
- * - Technical Questions:
- * [{
- *  question : "",
- *  intention : "",
- *  answer : ""
- * }]
- * - Behavioral Questions:
- * [{
- *  question : "",
- *  intention : "",
- *  answer : ""
- * }]
- * - Skill Gaps: [{
- *  skill: "",
- *  severity : {
- *      type: String,
- *      enum: ["low", "medium", "high"]
- * }
- * }]
- * - Preparation Plan: [{
- *      day : Number,
- *      focus : String,
- *      tasks :[String]
- * }]
- */
-
 const technicalQuestionSchema = new mongoose.Schema(
   {
     question: {
@@ -48,7 +15,9 @@ const technicalQuestionSchema = new mongoose.Schema(
       required: [true, "Answer is required"],
     },
   },
-  { _id: false },
+  {
+    _id: false,
+  },
 );
 
 const behavioralQuestionSchema = new mongoose.Schema(
@@ -66,7 +35,9 @@ const behavioralQuestionSchema = new mongoose.Schema(
       required: [true, "Answer is required"],
     },
   },
-  { _id: false },
+  {
+    _id: false,
+  },
 );
 
 const skillGapSchema = new mongoose.Schema(
@@ -77,11 +48,13 @@ const skillGapSchema = new mongoose.Schema(
     },
     severity: {
       type: String,
-      enum: ["LOW", "MEDIUM", "HIGH"],
+      enum: ["low", "medium", "high"],
       required: [true, "Severity is required"],
     },
   },
-  { _id: false },
+  {
+    _id: false,
+  },
 );
 
 const preparationPlanSchema = new mongoose.Schema({
@@ -126,8 +99,14 @@ const interviewReportSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
+    // title: {
+    //   type: String,
+    //   required: [true, "Job title is required"],
+    // },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const interviewReportModel = mongoose.model(

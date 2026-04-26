@@ -34,10 +34,30 @@ async function generateInterviewReport({
   selfDescription,
   jobDescription,
 }) {
-  const prompt = `Generate an interview report for a candidate with the following details : 
-    Resume:${resume}
-    Self Description: ${selfDescription}
-    Job Description:${jobDescription}`;
+const prompt = `
+You are an expert technical interviewer.
+Generate an interview report for a candidate based on the following information. The report should include:
+
+IMPORTANT INSTRUCTIONS:
+- Do NOT return empty arrays
+- Generate at least:
+  - 5 technical questions
+  - 3 behavioral questions
+  - 3 skill gaps
+  - 7-day preparation plan (ensure each day has at least 3 actionable tasks in the tasks array)
+- Be specific and detailed
+
+RESUME:
+${resume}
+
+SELF DESCRIPTION:
+${selfDescription}
+
+JOB DESCRIPTION:
+${jobDescription}
+
+Return ONLY valid JSON.
+`;
 
 
   const jsonSchema = interviewReportSchema.toJSONSchema();
@@ -52,7 +72,9 @@ async function generateInterviewReport({
     },
   });
 
-  console.log(JSON.parse(response.text))
+  const result = JSON.parse(response.text);
+  console.log(result);
+  return result;
 }
 
 module.exports = { generateInterviewReport };

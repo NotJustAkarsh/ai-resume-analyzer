@@ -28,6 +28,7 @@ async function generateInterviewReportController(req, res) {
 
   res.status(201).json({
     message: "Interview Report generated successfully",
+    interviewReport
   });
 }
 
