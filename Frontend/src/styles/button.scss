@@ -10,7 +10,18 @@
 
     &.primary-button{
         background-color:#e1034d;
-        color:white ;
+        color:white;
+    }
+
+    &.text-button{
+        background-color: transparent;
+        color: #b0b8c1;
+        border: 1px solid transparent;
+
+        &:hover{
+            background-color: #2a2f38;
+            color: #ffffff;
+        }
     }
 
     &:active{
