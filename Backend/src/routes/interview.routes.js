@@ -13,4 +13,22 @@ const interviewRouter = express.Router()
 
 interviewRouter.post("/",authMiddleware.authUser,upload.single("resume"),interviewController.generateInterviewReportController)
 
+/**
+ * @route GET api/interview/report/:reportId
+ * @description Get the interview report details on the basis of report id
+ * @access Private
+ */
+interviewRouter.get("/report/:reportId",authMiddleware.authUser,interviewController.getInterviewReportController)
+
+
+/**
+ * @route GET /api/interview/
+ * @description get all interview reports of logged in user.
+ * @access Private
+ */
+
+interviewRouter.get("/",authMiddleware.authUser, interviewController.getAllInterviewReportsController)
+
+
+
 module.exports = interviewRouter
