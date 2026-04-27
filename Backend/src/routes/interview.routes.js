@@ -18,7 +18,7 @@ interviewRouter.post("/",authMiddleware.authUser,upload.single("resume"),intervi
  * @description Get the interview report details on the basis of report id
  * @access Private
  */
-interviewRouter.get("/report/:reportId",authMiddleware.authUser,interviewController.getInterviewReportController)
+interviewRouter.get("/report/:interviewId",authMiddleware.authUser,interviewController.getInterviewReportController)
 
 
 /**

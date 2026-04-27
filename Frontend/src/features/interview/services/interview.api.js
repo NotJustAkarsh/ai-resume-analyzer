@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({ 
+const api = axios.create({
   baseURL: "http://localhost:3000",
   withCredentials: true,
 });
@@ -8,37 +8,39 @@ const api = axios.create({
 /**
  * @description Service to generate report based on user self description, resume and job description.
  */
-export const generateInterviewReport = ({jobDescription, selfDescription, resumeFile}) => {
-    const formData = new FormData()
-    formData.append("jobDescription", jobDescription)
-    formData.append("selfDescription", selfDescription)
-    formData.append("resume", resumeFile)
+export const generateInterviewReport = async ({
+  jobDescription,
+  selfDescription,
+  resumeFile,
+}) => {
+  const formData = new FormData();
+  formData.append("jobDescription", jobDescription);
+  formData.append("selfDescription", selfDescription);
+  formData.append("resume", resumeFile);
 
-    return api.post("/api/interview/", formData, {
-        headers:{
-            "Content-Type":"multipart/form-data"
-        }
-    })
+  const response = await api.post("/api/interview/", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
-    return response.data
-
-}
-
+  return response.data;
+};
 
 /**
  * @description Service to get interview report by interviewId
  */
-export const getInterviewReportById = (interviewId)=>{
-    const response = await api.get(`/api/interview/report/${interviewId}`)
+export const getInterviewReportById = async (interviewId) => {
+  const response = await api.get(`/api/interview/report/${interviewId}`);
 
-    return response.data
-}
+  return response.data;
+};
 
 /**
  * @description Service to get all interview reports of logged in user.
  */
-export const getAllInterviewReports =()=>{
-    const response = await api.get("/pi/interview/")
+export const getAllInterviewReports = async () => {
+  const response = await api.get("/api/interview/");
 
-    return response.data
-}
+  return response.data;
+};
