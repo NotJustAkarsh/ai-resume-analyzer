@@ -4,305 +4,273 @@ import "../style/interview.scss";
 
 const Interview = () => {
   const { interviewId } = useParams();
-  const [activeTab, setActiveTab] = useState("technical"); // technical, behavioral, preparation
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState("technical");
+  const [expandedQuestion, setExpandedQuestion] = useState(0);
 
-  // Mock data - will be replaced with API call
   const interviewData = {
-    matchScore: 85,
+    matchScore: 88,
+    matchText: "Strong match for this role",
     technicalQuestions: [
       {
-        question: "In your CodeByte project, you used Prisma with PostgreSQL...",
-        intention: "To evaluate the candidate's understanding of database management...",
-        answer: "The candidate should mention type safety, ease of maintenance...",
+        id: 1,
+        question: "Explain the Node.js event loop and how it handles asynchronous I/O operations.",
+        intention: "To assess the candidate's deep understanding of Node.js internal architecture and non-blocking I/O.",
+        answer: "The candidate should explain the different phases of the event loop (timers, pending callbacks, idle/prepare, poll, check, close). They should mention how Libuv handles the thread pool and how the callback queue works with the call stack to ensure performance without blocking the main thread.",
       },
       {
-        question: "You mentioned implementing JWT-based access control...",
-        intention: "To assess the candidate's depth of knowledge in security practices...",
-        answer: "Explain that rotation limits the lifespan of a stolen token...",
+        id: 2,
+        question: "How do you optimize a MongoDB aggregation pipeline for high-volume data?",
+        intention: "To evaluate backend optimization skills and database query performance understanding.",
+        answer: "Discuss using $match early in the pipeline, indexing strategies, avoiding large $lookup operations, using $project to limit fields, and leveraging aggregation stages efficiently.",
       },
       {
-        question: "When building the CodeByte platform with Next.js...",
-        intention: "To check for architectural decision-making skills...",
-        answer: "The candidate should explain that SSG (with ISR) is ideal for blogs...",
+        id: 3,
+        question: "Can you describe the Cache-Aside pattern and when you would use Redis in a Node.js application?",
+        intention: "To test knowledge of caching strategies and performance optimization.",
+        answer: "Explain the cache-aside pattern flow: check cache, if miss fetch from DB and store in cache. Use Redis for session management, rate limiting, real-time data, and frequently accessed data.",
+      },
+      {
+        id: 4,
+        question: "What are the challenges of migrating a monolithic application to a modular service-based architecture?",
+        intention: "To assess system design and architectural decision-making skills.",
+        answer: "Cover data consistency, distributed transactions, service communication, deployment complexity, monitoring challenges, and the need for proper API design.",
       },
     ],
     behavioralQuestions: [
       {
-        question: "During your Skyscanner job simulation...",
-        intention: "To evaluate the candidate's learning agility...",
-        answer: "Use the STAR method. Focus on reading documentation...",
+        id: 1,
+        question: "During your Skyscanner job simulation, you had to use an open-source React library. Describe a time you had to learn a new tool quickly to meet a deadline.",
+        intention: "To evaluate the candidate's learning agility and ability to work under pressure.",
+        answer: "Use the STAR method. Focus on reading documentation, looking at existing code examples, and building a small proof-of-concept before integrating it.",
       },
       {
-        question: "In your projects, you worked with various technologies...",
-        intention: "To assess teamwork, communication, and technical conflict resolution...",
-        answer: "The candidate should describe a specific situation...",
+        id: 2,
+        question: "Tell me about a technical conflict you had with a teammate or a significant challenge in your code.",
+        intention: "To assess teamwork, communication, and technical conflict resolution.",
+        answer: "Describe a specific situation, different viewpoints, and how you used data or testing to reach the best solution for the project.",
       },
     ],
     skillGaps: [
-      { skill: "Redis", severity: "medium" },
-      { skill: "AWS", severity: "medium" },
-      { skill: "Zustand", severity: "low" },
-      { skill: "Docker", severity: "high" },
-      { skill: "Jest", severity: "high" },
-      { skill: "Cypress", severity: "high" },
+      { skill: "Message Queues (Kafka/RabbitMQ)", severity: "high" },
+      { skill: "Advanced Docker & CI/CD Pipelines", severity: "medium" },
+      { skill: "Distributed Systems Design", severity: "medium" },
+      { skill: "Production-level Redis management", severity: "low" },
     ],
     preparationPlan: [
       {
         day: 1,
-        focus: "Next.js & Advanced React Patterns",
+        focus: "Node.js internals & Streams",
         tasks: [
-          "Review Next.js 14/15 Server Actions",
-          "Practice implementing Dynamic Routes",
-          "Read about React Server Components (RSC)",
+          "Deep dive into the Event Loop phases and process.nextTick vs setImmediate.",
+          "Practice implementing Node.js Streams for handling large data sets.",
         ],
       },
       {
         day: 2,
-        focus: "Backend Security & Auth Deep Dive",
+        focus: "Advanced MongoDB & Indexing",
         tasks: [
-          "Re-implement Node.js Auth flow using JWT",
-          "Research OWASP Top 10 vulnerabilities",
-          "Configure CORS and Helmet.js middleware",
+          "Study Compound Indexes, TTL Indexes, and Text Indexes.",
+          "Practice complex Aggregation pipelines and using the explain('executionStats') method.",
         ],
       },
       {
         day: 3,
-        focus: "Database Optimization & SQL Performance",
+        focus: "Caching & Redis Strategies",
         tasks: [
-          "Practice writing complex SQL joins",
-          "Analyze Prisma query logs",
-          "Compare SQL vs NoSQL for specific use cases",
+          "Read about Redis data types beyond strings (Sets, Hashes, Sorted Sets).",
+          "Implement a rate-limiting solution using Redis in a sample API.",
         ],
       },
       {
         day: 4,
-        focus: "DevOps & Deployment Basics",
+        focus: "System Design & Microservices",
         tasks: [
-          "Containerize the CodeByte Blog using Dockerfile",
-          "Set up GitHub Action for linting",
-          "Learn basics of AWS EC2 and S3",
+          "Study Microservices communication patterns (Synchronous vs Asynchronous).",
+          "Learn about the Circuit Breaker pattern and Saga pattern for distributed transactions.",
         ],
       },
       {
         day: 5,
-        focus: "System Design & Architecture",
+        focus: "DevOps & Containerization",
         tasks: [
-          "Study Load Balancing and Horizontal Scaling",
-          "Draw system architecture diagram",
-          "Read about Rate Limiting implementation",
-        ],
-      },
-      {
-        day: 6,
-        focus: "Testing & Quality Assurance",
-        tasks: [
-          "Write unit tests for Express utilities",
-          "Learn to mock Prisma/Database calls",
-          "Perform UI audit for accessibility",
-        ],
-      },
-      {
-        day: 7,
-        focus: "Behavioral Prep & Mock Interviews",
-        tasks: [
-          "Prepare 3 stories using STAR method",
-          "Review common Full Stack interview questions",
-          "Record yourself explaining architecture",
+          "Create a multi-stage Dockerfile for a Node.js app with optimizations.",
+          "Set up a basic GitHub Actions workflow for CI/CD.",
         ],
       },
     ],
   };
 
   const getSeverityColor = (severity) => {
-    switch (severity) {
-      case "high":
-        return "high";
-      case "medium":
-        return "medium";
-      case "low":
-        return "low";
-      default:
-        return "medium";
-    }
+    const colors = {
+      high: "severity-high",
+      medium: "severity-medium",
+      low: "severity-low",
+    };
+    return colors[severity] || colors.medium;
   };
 
-  const getCurrentContent = () => {
-    switch (activeTab) {
-      case "technical":
-        return interviewData.technicalQuestions[selectedIndex];
-      case "behavioral":
-        return interviewData.behavioralQuestions[selectedIndex];
-      case "preparation":
-        return interviewData.preparationPlan[selectedIndex];
-      default:
-        return null;
-    }
-  };
-
-  const getMaxItems = () => {
-    switch (activeTab) {
-      case "technical":
-        return interviewData.technicalQuestions.length;
-      case "behavioral":
-        return interviewData.behavioralQuestions.length;
-      case "preparation":
-        return interviewData.preparationPlan.length;
-      default:
-        return 0;
-    }
+  const getQuestions = () => {
+    return activeTab === "technical"
+      ? interviewData.technicalQuestions
+      : interviewData.behavioralQuestions;
   };
 
   return (
     <div className="interview-page">
       <div className="interview-container">
         {/* Left Sidebar */}
-        <div className="interview-sidebar left-sidebar">
-          <div className="sidebar-section">
-            <h3 className="section-title">Technical Questions</h3>
+        <aside className="interview-sidebar left-sidebar">
+          <h3 className="sidebar-title">SECTIONS</h3>
+          <nav className="sidebar-nav">
             <button
-              className={`section-button ${
-                activeTab === "technical" ? "active" : ""
-              }`}
+              className={`nav-item ${activeTab === "technical" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("technical");
-                setSelectedIndex(0);
+                setExpandedQuestion(0);
               }}
             >
-              {interviewData.technicalQuestions.length} Questions
+              <span className="icon">💻</span>
+              <span>Technical Questions</span>
             </button>
-          </div>
-
-          <div className="sidebar-section">
-            <h3 className="section-title">Behavioral Questions</h3>
             <button
-              className={`section-button ${
-                activeTab === "behavioral" ? "active" : ""
-              }`}
+              className={`nav-item ${activeTab === "behavioral" ? "active" : ""}`}
               onClick={() => {
                 setActiveTab("behavioral");
-                setSelectedIndex(0);
+                setExpandedQuestion(0);
               }}
             >
-              {interviewData.behavioralQuestions.length} Questions
+              <span className="icon">👥</span>
+              <span>Behavioral Questions</span>
             </button>
-          </div>
-
-          <div className="sidebar-section">
-            <h3 className="section-title preparation-title">PREPARATION PLAN</h3>
             <button
-              className={`section-button ${
-                activeTab === "preparation" ? "active" : ""
-              }`}
-              onClick={() => {
-                setActiveTab("preparation");
-                setSelectedIndex(0);
-              }}
+              className={`nav-item ${activeTab === "preparation" ? "active" : ""}`}
+              onClick={() => setActiveTab("preparation")}
             >
-              {interviewData.preparationPlan.length} Days
+              <span className="icon">🗺️</span>
+              <span>Road Map</span>
             </button>
-          </div>
-        </div>
+          </nav>
+        </aside>
 
-        {/* Middle Content */}
-        <div className="interview-content">
-          <div className="content-header">
-            <div className="match-badge">
-              <div className="match-score">{interviewData.matchScore}%</div>
-              <div className="match-label">Match Score</div>
-            </div>
-            <div className="content-title">
-              {activeTab === "technical" && "Technical Questions"}
-              {activeTab === "behavioral" && "Behavioral Questions"}
-              {activeTab === "preparation" && "Preparation Plan"}
-            </div>
-          </div>
+        {/* Main Content */}
+        <main className="interview-content">
+          {activeTab === "preparation" ? (
+            <div className="preparation-view">
+              <h2 className="content-header-title">Preparation Road Map</h2>
+              <p className="content-subtitle">7-day plan</p>
 
-          <div className="content-body">
-            {activeTab === "preparation" ? (
-              <div className="preparation-content">
-                <div className="day-header">
-                  <h2>Day {getCurrentContent()?.day}</h2>
-                  <p className="day-focus">{getCurrentContent()?.focus}</p>
-                </div>
-                <div className="tasks-list">
-                  <h4>Today's Tasks:</h4>
-                  <ul>
-                    {getCurrentContent()?.tasks.map((task, idx) => (
-                      <li key={idx}>
-                        <span className="task-bullet">→</span>
-                        {task}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="timeline">
+                {interviewData.preparationPlan.map((day, index) => (
+                  <div key={index} className="timeline-item">
+                    <div className="timeline-marker">
+                      <div className="timeline-dot"></div>
+                      {index < interviewData.preparationPlan.length - 1 && (
+                        <div className="timeline-line"></div>
+                      )}
+                    </div>
+                    <div className="timeline-content">
+                      <h4 className="day-label">
+                        Day {day.day} <span className="day-focus">{day.focus}</span>
+                      </h4>
+                      <ul className="tasks-list">
+                        {day.tasks.map((task, idx) => (
+                          <li key={idx}>{task}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <div className="question-content">
-                <div className="question-section">
-                  <h3 className="question-label">Question</h3>
-                  <p className="question-text">{getCurrentContent()?.question}</p>
-                </div>
-
-                <div className="question-section">
-                  <h3 className="question-label">Interviewer Intention</h3>
-                  <p className="intention-text">
-                    {getCurrentContent()?.intention}
-                  </p>
-                </div>
-
-                <div className="question-section">
-                  <h3 className="question-label">Expected Answer</h3>
-                  <p className="answer-text">{getCurrentContent()?.answer}</p>
-                </div>
+            </div>
+          ) : (
+            <div className="questions-view">
+              <div className="questions-header">
+                <h2 className="content-header-title">
+                  {activeTab === "technical" ? "Technical" : "Behavioral"} Questions
+                </h2>
+                <span className="question-count">
+                  {getQuestions().length} questions
+                </span>
               </div>
-            )}
 
-            {/* Navigation */}
-            <div className="content-navigation">
-              <button
-                className="nav-button prev"
-                onClick={() =>
-                  setSelectedIndex((prev) =>
-                    prev > 0 ? prev - 1 : getMaxItems() - 1
-                  )
-                }
-              >
-                ← Previous
-              </button>
+              <div className="questions-list">
+                {getQuestions().map((q, index) => (
+                  <div
+                    key={q.id}
+                    className={`question-card ${
+                      expandedQuestion === index ? "expanded" : ""
+                    }`}
+                  >
+                    <button
+                      className="question-header"
+                      onClick={() =>
+                        setExpandedQuestion(
+                          expandedQuestion === index ? -1 : index
+                        )
+                      }
+                    >
+                      <span className="question-number">
+                        Q{q.id}
+                      </span>
+                      <span className="question-text">{q.question}</span>
+                      <span className="toggle-icon">
+                        {expandedQuestion === index ? "▲" : "▼"}
+                      </span>
+                    </button>
 
-              <span className="nav-counter">
-                {selectedIndex + 1} / {getMaxItems()}
-              </span>
+                    {expandedQuestion === index && (
+                      <div className="question-content">
+                        <div className="content-section">
+                          <h4 className="section-label">INTENTION</h4>
+                          <p>{q.intention}</p>
+                        </div>
+                        <div className="content-section">
+                          <h4 className="section-label">MODEL ANSWER</h4>
+                          <p>{q.answer}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </main>
 
-              <button
-                className="nav-button next"
-                onClick={() =>
-                  setSelectedIndex((prev) =>
-                    prev < getMaxItems() - 1 ? prev + 1 : 0
-                  )
-                }
-              >
-                Next →
-              </button>
+        {/* Right Sidebar */}
+        <aside className="interview-sidebar right-sidebar">
+          <div className="match-score-section">
+            <h3 className="sidebar-title">MATCH SCORE</h3>
+            <div className="circular-progress">
+              <svg viewBox="0 0 100 100" className="progress-ring">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="40"
+                  className="progress-ring-circle"
+                />
+              </svg>
+              <div className="progress-content">
+                <div className="score-percentage">{interviewData.matchScore}%</div>
+              </div>
+            </div>
+            <p className="match-text">{interviewData.matchText}</p>
+          </div>
+
+          <div className="skill-gaps-section">
+            <h3 className="sidebar-title">SKILL GAPS</h3>
+            <div className="skill-tags">
+              {interviewData.skillGaps.map((gap, idx) => (
+                <span
+                  key={idx}
+                  className={`skill-tag ${getSeverityColor(gap.severity)}`}
+                >
+                  {gap.skill}
+                </span>
+              ))}
             </div>
           </div>
-        </div>
-
-        {/* Right Sidebar - Skill Gaps */}
-        <div className="interview-sidebar right-sidebar">
-          <h3 className="skills-title">SKILL GAPS</h3>
-          <div className="skills-container">
-            {interviewData.skillGaps.map((gap, idx) => (
-              <div
-                key={idx}
-                className={`skill-badge ${getSeverityColor(gap.severity)}`}
-              >
-                {gap.skill}
-              </div>
-            ))}
-          </div>
-        </div>
+        </aside>
       </div>
     </div>
   );
