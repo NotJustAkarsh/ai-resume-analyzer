@@ -608,28 +608,67 @@
   }
 }
 
+.mobile-tabs {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .interview-page {
-    padding: 1rem;
+    padding: 1rem 0.5rem; /* Maximize real estate */
     background: linear-gradient(135deg, #0f1419 0%, #1a1f27 100%);
   }
 
   .interview-container {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .left-sidebar {
     display: none;
   }
+  
+  .mobile-tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-tab {
+      background: rgba(26, 31, 39, 0.8);
+      border: 1px solid #2a2f38;
+      border-radius: 2rem;
+      padding: 0.6rem 1.25rem;
+      color: #b0b8c1;
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &.active {
+        background: #e1034d;
+        color: #ffffff;
+        border-color: #e1034d;
+        box-shadow: 0 4px 12px rgba(225, 3, 77, 0.3);
+      }
+    }
+  }
 
   .right-sidebar {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    padding: 0 0.5rem;
   }
 
   .interview-content {
-    padding: 1.5rem;
+    padding: 1rem 0.5rem;
   }
 
   .questions-header {
@@ -639,7 +678,7 @@
   }
 
   .question-header {
-    padding: 1rem;
+    padding: 1.25rem 1rem; /* Better touch target */
   }
 
   .question-content {

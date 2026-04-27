@@ -70,6 +70,34 @@ const Interview = () => {
           </nav>
         </aside>
 
+        {/* Mobile Navigation Tabs */}
+        <div className="mobile-tabs">
+          <button
+            className={`mobile-tab ${activeTab === "technical" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("technical");
+              setExpandedQuestion(0);
+            }}
+          >
+            💻 Technical
+          </button>
+          <button
+            className={`mobile-tab ${activeTab === "behavioral" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("behavioral");
+              setExpandedQuestion(0);
+            }}
+          >
+            👥 Behavioral
+          </button>
+          <button
+            className={`mobile-tab ${activeTab === "preparation" ? "active" : ""}`}
+            onClick={() => setActiveTab("preparation")}
+          >
+            🗺️ Road Map
+          </button>
+        </div>
+
         {/* Main Content */}
         <main className="interview-content">
           {activeTab === "preparation" ? (
