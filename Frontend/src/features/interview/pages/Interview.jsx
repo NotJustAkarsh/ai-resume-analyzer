@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import "../style/interview.scss"
 import { useInterview } from "../hooks/useInterview";
 import { generateResumePdf } from "../services/interview.api";
+import Loader from "../../../components/common/Loader";
 
 const Interview = () => {
   const { interviewId } = useParams();
@@ -40,7 +41,7 @@ const Interview = () => {
   };
 
   if (loading || !report) {
-    return <div>Loading...</div>;
+    return <Loader text="Fetching Analysis..." />;
   }
   const getSeverityColor = (severity) => {
     const colors = {

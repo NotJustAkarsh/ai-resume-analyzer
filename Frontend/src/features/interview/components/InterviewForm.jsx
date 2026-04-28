@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import "../style/form.scss";
 import { useInterview } from "../hooks/useInterview";
 import { useNavigate } from "react-router";
+import Loader from "../../../components/common/Loader";
 
 const InterviewForm = () => {
   const { loading, generateReport } = useInterview();
@@ -23,9 +24,7 @@ const InterviewForm = () => {
   };
 
   if(loading){
-    return(
-        <main><h1>Loading...</h1></main>
-    )
+    return <Loader text="Analyzing Resume..." />;
   }
   return (
     <div className="interview-form-container">

@@ -1,5 +1,6 @@
 import { Navigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import Loader from "../../../components/common/Loader";
 
 import React from "react";
 
@@ -7,11 +8,7 @@ const Protected = ({ children }) => {
   const { loading, user } = useAuth();
 
   if (loading) {
-    return (
-      <main>
-        <h1>(<main>Loading....</main>)</h1>
-      </main>
-    );
+    return <Loader text="Authenticating..." />;
   }
 
   if (!user) {

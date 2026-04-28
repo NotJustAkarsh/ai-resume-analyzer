@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import Loader from "../../../components/common/Loader";
 import "../auth.form.scss";
 
 const Register = () => {
@@ -37,13 +38,7 @@ const Register = () => {
   };
 
   if (loading) {
-    return (
-      <main className="auth-page">
-        <div className="loading-spinner">
-          <h2>Loading...</h2>
-        </div>
-      </main>
-    );
+    return <Loader text="Creating account..." />;
   }
 
   return (

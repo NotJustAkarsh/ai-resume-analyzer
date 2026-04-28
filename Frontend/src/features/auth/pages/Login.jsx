@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../auth.form.scss";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import Loader from "../../../components/common/Loader";
 
 const Login = () => {
   const { loading, handleLogin } = useAuth();
@@ -29,13 +30,7 @@ const Login = () => {
   };
 
   if (loading) {
-    return (
-      <main className="auth-page">
-        <div className="loading-spinner">
-          <h2>Loading...</h2>
-        </div>
-      </main>
-    );
+    return <Loader text="Signing in..." />;
   }
 
   return (
