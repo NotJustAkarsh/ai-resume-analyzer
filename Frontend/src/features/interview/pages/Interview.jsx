@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import "../style/interview.scss"
 import { useInterview } from "../hooks/useInterview";
+import { generateResumePdf } from "../services/interview.api";
 
 const Interview = () => {
   const { interviewId } = useParams();
   const [activeTab, setActiveTab] = useState("technical");
   const [expandedQuestion, setExpandedQuestion] = useState(0);
+  const [downloadingResume, setDownloadingResume] = useState(false);
   const { report, loading, getReportById } = useInterview();
 
   useEffect(() => {
@@ -14,6 +16,28 @@ const Interview = () => {
       getReportById(interviewId);
     }
   }, [interviewId]);
+
+  const handleDownloadResume = async () => {
+    try {
+      setDownloadingResume(true);
+      const pdfBlob = await generateResumePdf({ interviewReportId: interviewId });
+      
+      // Create a download link and trigger download
+      const url = window.URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `resume_${interviewId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading resume:", error);
+      alert("Failed to download resume. Please try again.");
+    } finally {
+      setDownloadingResume(false);
+    }
+  };
 
   if (loading || !report) {
     return <div>Loading...</div>;
@@ -67,6 +91,13 @@ const Interview = () => {
               <span className="icon">🗺️</span>
               <span>Road Map</span>
             </button>
+            <button 
+              className="primary"
+              onClick={handleDownloadResume}
+              disabled={downloadingResume}
+            >
+              {downloadingResume ? "Downloading..." : "Download Resume"}
+            </button>
           </nav>
         </aside>
 
@@ -95,6 +126,17 @@ const Interview = () => {
             onClick={() => setActiveTab("preparation")}
           >
             🗺️ Road Map
+          </button>
+        </div>
+
+        {/* Mobile Download Button — full width row, always visible */}
+        <div className="mobile-download">
+          <button
+            className="mobile-download-btn"
+            onClick={handleDownloadResume}
+            disabled={downloadingResume}
+          >
+            {downloadingResume ? "⏳ Downloading..." : "⬇ Download Resume"}
           </button>
         </div>
 
