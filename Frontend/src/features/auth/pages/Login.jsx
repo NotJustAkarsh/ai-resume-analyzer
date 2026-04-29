@@ -24,8 +24,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      await handleLogin({ email, password });
-      navigate("/");
+      try {
+        const result = await handleLogin({ email, password });
+        if (result) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        setErrors({ submit: "Login failed. Please check your credentials." });
+      }
     }
   };
 
@@ -43,6 +50,7 @@ const Login = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
+            {errors.submit && <div className="form-error-banner">{errors.submit}</div>}
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <input

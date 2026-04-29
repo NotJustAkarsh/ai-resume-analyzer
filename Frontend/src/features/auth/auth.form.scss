@@ -218,6 +218,22 @@
   &::before { content: "⚠"; font-size: 0.75rem; }
 }
 
+.form-error-banner {
+  padding: 0.875rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideDown 0.3s ease-out;
+
+  &::before { content: "⚠"; font-size: 1rem; }
+}
+
 /* ==================== FORGOT PASSWORD ==================== */
 .forgot-password {
   display: flex;
@@ -457,6 +473,17 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==================== 300px SUPPORT ==================== */

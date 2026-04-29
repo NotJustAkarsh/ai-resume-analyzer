@@ -15,7 +15,8 @@ export async function register({ username, email, password }) {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Registration error:", error.response?.data || error.message);
+    throw error;
   }
 }
 
@@ -25,7 +26,8 @@ export async function login({ email, password }) {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Login error:", error.response?.data || error.message);
+    throw error;
   }
 }
 
@@ -35,7 +37,8 @@ export async function logout() {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Logout error:", error.response?.data || error.message);
+    throw error;
   }
 }
 
@@ -45,6 +48,7 @@ export async function getMe() {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Get user error:", error.response?.data || error.message);
+    throw error;
   }
 }

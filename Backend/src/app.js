@@ -6,10 +6,26 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ 
-  origin: process.env.NODE_ENV === "production" ? true : "http://localhost:5173", 
-  credentials: true 
-}));
+
+// CORS configuration
+const corsOptions = {
+  credentials: true
+};
+
+if (process.env.NODE_ENV === "production") {
+  // In production, allow requests from the same origin (Vercel domain)
+  corsOptions.origin = function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or server-to-server requests)
+    if (!origin) return callback(null, true);
+    // In production, allow the frontend origin
+    callback(null, true);
+  };
+} else {
+  // In development, allow localhost:5173
+  corsOptions.origin = "http://localhost:5173";
+}
+
+app.use(cors(corsOptions));
 
 /* Require all the routes here */
 const authRouter = require("./routes/auth.routes");

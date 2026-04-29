@@ -10,8 +10,14 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const data = await login({ email, password });
-      setUser(data.user);
+      if (data && data.user) {
+        setUser(data.user);
+        return true;
+      }
+      return false;
     } catch (error) {
+      console.error("Login error in hook:", error);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -21,8 +27,14 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const data = await register({ username, email, password });
-      setUser(data.user);
+      if (data && data.user) {
+        setUser(data.user);
+        return true;
+      }
+      return false;
     } catch (error) {
+      console.error("Registration error in hook:", error);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -33,7 +45,12 @@ export const useAuth = () => {
     try {
       const data = await logout();
       setUser(null);
+      return true;
     } catch (error) {
+      console.error("Logout error in hook:", error);
+      // Still clear user even if request fails
+      setUser(null);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -41,15 +58,15 @@ export const useAuth = () => {
 
   useEffect(() => {
     const getAndSetUser = async () => {
-
       try {
         const data = await getMe();
-        setUser(data.user);
-
+        if (data && data.user) {
+          setUser(data.user);
+        }
       } catch (error) {
-
+        console.error("Failed to fetch user data:", error);
+        setUser(null);
       } finally {
-
         setLoading(false);
       }
     };

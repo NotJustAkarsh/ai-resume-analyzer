@@ -32,8 +32,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      await handleRegister({ username, email, password });
-      navigate("/");
+      try {
+        const result = await handleRegister({ username, email, password });
+        if (result) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Registration failed:", error);
+        setErrors({ submit: "Registration failed. Please try again." });
+      }
     }
   };
 
@@ -51,6 +58,7 @@ const Register = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
+            {errors.submit && <div className="form-error-banner">{errors.submit}</div>}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
